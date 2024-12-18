@@ -15,6 +15,13 @@ void AMovingPlatform::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Begin Replication
+	if (HasAuthority())
+	{
+		SetReplicates(true);
+		SetReplicateMovement(true);
+	}
+
 	CurrentLocation = this->GetActorLocation();
 }
 
@@ -23,16 +30,19 @@ void AMovingPlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (CurrentTimeCounter > OneWayRoundSeconds)
+	if (HasAuthority())
 	{
-		SpeedPlatform *= -1;
-		CurrentTimeCounter = 0;
-	}
-	else
-	{
-		CurrentLocation.X += SpeedPlatform * DeltaTime;
-		CurrentTimeCounter += DeltaTime;
+		if (CurrentTimeCounter > OneWayRoundSeconds)
+		{
+			SpeedPlatform *= -1;
+			CurrentTimeCounter = 0;
+		}
+		else
+		{
+			CurrentLocation.X += SpeedPlatform * DeltaTime;
+			CurrentTimeCounter += DeltaTime;
 
-		SetActorLocation(CurrentLocation);
+			SetActorLocation(CurrentLocation);
+		}
 	}
 }
