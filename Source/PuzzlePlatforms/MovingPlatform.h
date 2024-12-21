@@ -28,17 +28,23 @@ protected:
 
 private:
 
-	UPROPERTY(EditAnywhere, Category = "Platform Setup")
-	float OneWayRoundSeconds = 5.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Platform Setup", meta = (AllowPrivateAccess = "true"))
+	float DifferenceRange = 5.f;
 
-
-	UPROPERTY(EditAnywhere, Category = "Platform Setup")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Platform Setup", meta = (AllowPrivateAccess = "true"))
 	float SpeedPlatform = 5.f;
 
-	
+	UPROPERTY(EditAnywhere, 
+		BlueprintReadWrite, 
+		Category = "Platform Setup", 
+		meta = (AllowPrivateAccess = "true"), 
+		meta = (MakeEditWidget = "true"))
+	FVector TargetLocation;
+
+	//Caching for initial conditions
+	FVector InitialLocation;
 	FVector CurrentLocation;
+	FVector Direction;
 
-	float CurrentTimeCounter = 0;
-
-	
+	//float CurrentTimeCounter = 0;
 };

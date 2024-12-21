@@ -20,9 +20,13 @@ void AMovingPlatform::BeginPlay()
 	{
 		SetReplicates(true);
 		SetReplicateMovement(true);
-	}
 
-	CurrentLocation = this->GetActorLocation();
+		//Setting initial position
+		InitialLocation = this->GetActorLocation();
+		CurrentLocation = this->GetActorLocation();
+		Direction = TargetLocation.GetSafeNormal();
+		
+	}
 }
 
 
@@ -32,17 +36,29 @@ void AMovingPlatform::Tick(float DeltaTime)
 
 	if (HasAuthority())
 	{
-		if (CurrentTimeCounter > OneWayRoundSeconds)
+		//if (CurrentTimeCounter > OneWayRoundSeconds)
+		//{
+		//	SpeedPlatform *= -1;
+		//	CurrentTimeCounter = 0;
+		//}
+		//else
+		//{
+		//	CurrentLocation += (SpeedPlatform * DeltaTime) * Direction;
+		//	CurrentTimeCounter += DeltaTime;
+
+		//	SetActorLocation(CurrentLocation);
+		//}
+
+		CurrentLocation += (SpeedPlatform * DeltaTime) * Direction;
+		SetActorLocation(CurrentLocation);
+
+		//UE_LOG(LogTemp, Display, TEXT("Diferencia final %f"), (CurrentLocation - (TargetLocation + InitialLocation)).SizeSquared());
+		//UE_LOG(LogTemp, Display, TEXT("Diferencia inicial %f"), (CurrentLocation - InitialLocation).SizeSquared());
+
+		if( (CurrentLocation - (TargetLocation + InitialLocation)).SizeSquared() < DifferenceRange
+			|| (CurrentLocation - InitialLocation).SizeSquared() < DifferenceRange )
 		{
 			SpeedPlatform *= -1;
-			CurrentTimeCounter = 0;
-		}
-		else
-		{
-			CurrentLocation.X += SpeedPlatform * DeltaTime;
-			CurrentTimeCounter += DeltaTime;
-
-			SetActorLocation(CurrentLocation);
 		}
 	}
 }
