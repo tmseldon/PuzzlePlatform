@@ -29,6 +29,9 @@ protected:
 private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Platform Setup", meta = (AllowPrivateAccess = "true"))
+	FVector InitialLocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Platform Setup", meta = (AllowPrivateAccess = "true"))
 	float DifferenceRange = 5.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Platform Setup", meta = (AllowPrivateAccess = "true"))
@@ -42,7 +45,6 @@ private:
 	FVector TargetLocation;
 
 	//Caching for initial conditions
-	FVector InitialLocation;
 	FVector CurrentLocation;
 	FVector Direction;
 

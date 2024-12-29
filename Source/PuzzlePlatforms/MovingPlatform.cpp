@@ -22,9 +22,12 @@ void AMovingPlatform::BeginPlay()
 		SetReplicateMovement(true);
 
 		//Setting initial position
-		InitialLocation = this->GetActorLocation();
+		if (InitialLocation.IsZero())
+		{
+			InitialLocation = this->GetActorLocation();
+		}
 		CurrentLocation = this->GetActorLocation();
-		Direction = TargetLocation.GetSafeNormal();
+		Direction = -1 * TargetLocation.GetSafeNormal();
 		
 	}
 }
