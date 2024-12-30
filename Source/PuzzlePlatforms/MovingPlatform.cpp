@@ -8,6 +8,7 @@ AMovingPlatform::AMovingPlatform()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	SetMobility(EComponentMobility::Movable);
+	SetActiveMotion(bIsThisPlatformActive);
 }
 
 
@@ -22,12 +23,9 @@ void AMovingPlatform::BeginPlay()
 		SetReplicateMovement(true);
 
 		//Setting initial position
-		if (InitialLocation.IsZero())
-		{
-			InitialLocation = this->GetActorLocation();
-		}
-		CurrentLocation = this->GetActorLocation();
-		Direction = -1 * TargetLocation.GetSafeNormal();
+		InitialLocation = this->GetActorLocation();
+		//CurrentLocation = this->GetActorLocation();
+		Direction = TargetLocation.GetSafeNormal();
 		
 	}
 }
@@ -37,7 +35,7 @@ void AMovingPlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (HasAuthority())
+	if (HasAuthority() && bIsThisPlatformActive)
 	{
 		//if (CurrentTimeCounter > OneWayRoundSeconds)
 		//{
@@ -52,16 +50,33 @@ void AMovingPlatform::Tick(float DeltaTime)
 		//	SetActorLocation(CurrentLocation);
 		//}
 
+		if (CurrentLocation.IsZero())
+		{
+			CurrentLocation = GetActorLocation();
+		}
+
 		CurrentLocation += (SpeedPlatform * DeltaTime) * Direction;
 		SetActorLocation(CurrentLocation);
 
 		//UE_LOG(LogTemp, Display, TEXT("Diferencia final %f"), (CurrentLocation - (TargetLocation + InitialLocation)).SizeSquared());
 		//UE_LOG(LogTemp, Display, TEXT("Diferencia inicial %f"), (CurrentLocation - InitialLocation).SizeSquared());
-
-		if( (CurrentLocation - (TargetLocation + InitialLocation)).SizeSquared() < DifferenceRange
-			|| (CurrentLocation - InitialLocation).SizeSquared() < DifferenceRange )
+		if (!bIsInitial)
 		{
-			SpeedPlatform *= -1;
+			if ((CurrentLocation - (TargetLocation + InitialLocation)).SizeSquared() < DifferenceRange
+				|| (CurrentLocation - InitialLocation).SizeSquared() < DifferenceRange)
+			{
+				SpeedPlatform *= -1;
+			}
+		}
+		else
+		{
+			bIsInitial = false;
 		}
 	}
+}
+
+
+void AMovingPlatform::SetActiveMotion(bool bIsActive)
+{
+	bIsThisPlatformActive = bIsActive;
 }

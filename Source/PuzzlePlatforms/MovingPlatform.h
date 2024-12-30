@@ -18,6 +18,8 @@ public:
 
 	AMovingPlatform();
 
+	void SetActiveMotion(bool bIsActive);
+
 
 protected:
 
@@ -25,17 +27,17 @@ protected:
 
 	virtual void Tick(float DeltaTime) override;
 
-
 private:
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Platform Setup", meta = (AllowPrivateAccess = "true"))
-	FVector InitialLocation;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Platform Setup", meta = (AllowPrivateAccess = "true"))
 	float DifferenceRange = 5.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Platform Setup", meta = (AllowPrivateAccess = "true"))
 	float SpeedPlatform = 5.f;
+
+	// For Movement Activation
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Platform Setup", meta = (AllowPrivateAccess = "true"))
+	bool bIsThisPlatformActive = true;
 
 	UPROPERTY(EditAnywhere, 
 		BlueprintReadWrite, 
@@ -44,9 +46,13 @@ private:
 		meta = (MakeEditWidget = "true"))
 	FVector TargetLocation;
 
-	//Caching for initial conditions
+	// Caching for initial conditions
 	FVector CurrentLocation;
 	FVector Direction;
-
+	FVector InitialLocation;
 	//float CurrentTimeCounter = 0;
+
+	// Hack to avoid the initial problem that the platform moves in another direction, this is due the substraction
+	// on the different positions at init
+	bool bIsInitial = true;
 };

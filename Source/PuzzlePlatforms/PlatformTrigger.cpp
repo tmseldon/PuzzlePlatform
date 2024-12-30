@@ -26,6 +26,9 @@ void APlatformTrigger::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	// Setup delegates
+	TriggerVolume->OnComponentBeginOverlap.AddDynamic(this, &APlatformTrigger::OnOverlapBegins);
+	TriggerVolume->OnComponentEndOverlap.AddDynamic(this, &APlatformTrigger::OnOverlapEnds);
 }
 
 // Called every frame
@@ -33,5 +36,49 @@ void APlatformTrigger::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void APlatformTrigger::OnOverlapBegins(
+	UPrimitiveComponent* OverlappedComponent,
+	AActor* OtherActor,
+	UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex,
+	bool bFromSweep,
+	const FHitResult& SweepResult
+	)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Activate Overlap"));
+
+	if (ListActivationPlatforms.Num() == 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("List of movable platform is empty"));
+		return;
+	}
+
+	for (AMovingPlatform* MovablePlatform : ListActivationPlatforms)
+	{
+		MovablePlatform->SetActiveMotion(true);
+	}
+}
+
+void APlatformTrigger::OnOverlapEnds(
+	UPrimitiveComponent* OverlappedComponent,
+	AActor* OtherActor,
+	UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex
+	)
+{
+	UE_LOG(LogTemp, Warning, TEXT("DeActivate Overlap"));
+
+	if (ListActivationPlatforms.Num() == 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("List of movable platform is empty"));
+		return;
+	}
+
+	for (AMovingPlatform* MovablePlatform : ListActivationPlatforms)
+	{
+		MovablePlatform->SetActiveMotion(false);
+	}
 }
 
