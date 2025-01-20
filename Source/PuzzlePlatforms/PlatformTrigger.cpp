@@ -26,9 +26,12 @@ void APlatformTrigger::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	// Setup delegates
-	TriggerVolume->OnComponentBeginOverlap.AddDynamic(this, &APlatformTrigger::OnOverlapBegins);
-	TriggerVolume->OnComponentEndOverlap.AddDynamic(this, &APlatformTrigger::OnOverlapEnds);
+	if (TriggerVolume != nullptr)
+	{
+		// Setup delegates
+		TriggerVolume->OnComponentBeginOverlap.AddDynamic(this, &APlatformTrigger::OnOverlapBegins);
+		TriggerVolume->OnComponentEndOverlap.AddDynamic(this, &APlatformTrigger::OnOverlapEnds);
+	}
 }
 
 // Called every frame
