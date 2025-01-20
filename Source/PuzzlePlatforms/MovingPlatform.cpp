@@ -35,7 +35,8 @@ void AMovingPlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (HasAuthority() && bIsThisPlatformActive)
+	/*if (HasAuthority() && bIsThisPlatformActive)*/
+	if (HasAuthority() && CurrentTriggersNumber > 0)
 	{
 		//if (CurrentTimeCounter > OneWayRoundSeconds)
 		//{
@@ -79,4 +80,17 @@ void AMovingPlatform::Tick(float DeltaTime)
 void AMovingPlatform::SetActiveMotion(bool bIsActive)
 {
 	bIsThisPlatformActive = bIsActive;
+}
+
+void AMovingPlatform::AddActiveTrigger()
+{
+	CurrentTriggersNumber++;
+}
+
+void AMovingPlatform::RemoveActiveTrigger()
+{
+	if (CurrentTriggersNumber > 0)
+	{
+		CurrentTriggersNumber--;
+	}
 }

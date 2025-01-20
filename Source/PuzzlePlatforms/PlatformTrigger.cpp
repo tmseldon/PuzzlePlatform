@@ -60,7 +60,8 @@ void APlatformTrigger::OnOverlapBegins(
 
 	for (AMovingPlatform* MovablePlatform : ListActivationPlatforms)
 	{
-		MovablePlatform->SetActiveMotion(true);
+		//MovablePlatform->SetActiveMotion(true);
+		MovablePlatform->AddActiveTrigger();
 	}
 }
 
@@ -81,7 +82,8 @@ void APlatformTrigger::OnOverlapEnds(
 
 	for (AMovingPlatform* MovablePlatform : ListActivationPlatforms)
 	{
-		MovablePlatform->SetActiveMotion(false);
+		//MovablePlatform->SetActiveMotion(false);
+		MovablePlatform->RemoveActiveTrigger();
 	}
 }
 

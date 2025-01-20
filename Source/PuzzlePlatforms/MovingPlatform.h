@@ -20,6 +20,10 @@ public:
 
 	void SetActiveMotion(bool bIsActive);
 
+	void AddActiveTrigger();
+
+	void RemoveActiveTrigger();
+
 
 protected:
 
@@ -55,4 +59,7 @@ private:
 	// Hack to avoid the initial problem that the platform moves in another direction, this is due the substraction
 	// on the different positions at init
 	bool bIsInitial = true;
+
+	UPROPERTY(EditAnywhere)
+	int CurrentTriggersNumber = 1;
 };
