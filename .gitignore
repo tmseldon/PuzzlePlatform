@@ -47,11 +47,7 @@ SourceArt/**/*.tga
 
 # Binary Files
 Binaries/*
-<<<<<<< HEAD
 Plugins/*/Binaries/*
-=======
-Plugins/**/Binaries/*
->>>>>>> 672f9855866339a2b9fad3355dd1df44878c2f7c
 
 # Builds
 Build/*
@@ -72,7 +68,6 @@ Saved/*
 
 # Compiled source files for the engine to use
 Intermediate/*
-<<<<<<< HEAD
 Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
@@ -84,9 +79,6 @@ Content/ThirdPerson/*
 Content/Fonts/*
 Content/__ExternalActors__/*
 Content/__ExternalObjects__/*
-=======
-Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
->>>>>>> 672f9855866339a2b9fad3355dd1df44878c2f7c
