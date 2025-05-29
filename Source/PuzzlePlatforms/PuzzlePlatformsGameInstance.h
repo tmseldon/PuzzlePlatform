@@ -23,9 +23,16 @@ protected:
 	virtual void Init() override;
 
 	UFUNCTION(Exec)
+	void LoadMenu();
+
+	UFUNCTION(Exec)
 	void Host();
 
 	UFUNCTION(Exec)
 	void Join(const FString& IPAddress);
+
+private:
+
+	TSubclassOf<class UUserWidget> MainMenuClass;
 	
 };
